@@ -23,4 +23,19 @@ lookahead method:
 
 There are CFGs that cannot be analyzed by this method.
 
-- left recursion: $S -> Sa$
+- left recursions
+  > analyze `ba^n` using CFG G:
+  > `S -> Sa | b`
+  > must look ahead n+2 alphabets to determine a derivation sequence
+  - there are also "indirect left recursions":
+  > `S -> Aa`
+  > `A -> Sb`
+  - can remove left recursion on certain occasions
+
+- left common factor
+  > `S -> aAb | aAc`
+  > `A -> a | aA`
+  - can remove left common factors on certain occasions
+  
+## LL(1) analysis
+
