@@ -1,6 +1,6 @@
-# Top-down analysis
+# Top-down parsing
 
-cf. bottom-up analysis.
+cf. bottom-up parsing.
 
 ## Introduction
 
@@ -15,13 +15,13 @@ cf. bottom-up analysis.
 
 Use a left-most derivation.
 
-### Deterministic top-down analysis
+### Deterministic top-down parsing
 
 lookahead method: 
 - scan once from left to right
-- allowed to look at most N alphabets ahead while scanning
+- allowed to read ahead at most N tokens ahead while scanning, where N is a fixed value
 
-There are CFGs that cannot be analyzed by this method.
+There are CFGs that cannot be parsed by this method.
 
 - left recursions
   > analyze `ba^n` using CFG G:
@@ -37,5 +37,13 @@ There are CFGs that cannot be analyzed by this method.
   > `A -> a | aA`
   - can remove left common factors on certain occasions
   
-## LL(1) analysis
+## LL(1) parser
+
+An LL (left-to-right, leftmost derivation) parser is called an LL(k) parser if it uses k tokens of lookahead.
+
+A grammer is called an LL(k) grammar if an LL(k) parser can be constructed from it. ([LL parser - Wikipedia](https://en.wikipedia.org/wiki/LL_parser)
+
+### First-set (*Fi*) and Follow-set (*Fo*)
+
+
 
