@@ -41,9 +41,8 @@ There are CFGs that cannot be parsed by this method.
 
 An LL (left-to-right, leftmost derivation) parser is called an LL(k) parser if it uses k tokens of lookahead.
 
-A grammer is called an LL(k) grammar if an LL(k) parser can be constructed from it. ([LL parser - Wikipedia](https://en.wikipedia.org/wiki/LL_parser)
+A grammer is called an LL(k) grammar if an LL(k) parser can be constructed from it. ([LL parser - Wikipedia](https://en.wikipedia.org/wiki/LL_parser))
 
 ### First-set (*Fi*) and Follow-set (*Fo*)
 
-
-
+- **Fi**(&alpha;) = { a | &alpha; =>\* a &beta;, a &isin; V<sub>T</sub>, &beta; &isin; (V<sub>T</sub> &cup; V<sub>N</sub>)<sup>\*</sup>, or &alpha; =>\* a where a=	&epsilon; }
