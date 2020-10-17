@@ -45,10 +45,10 @@ A grammer is called an LL(k) grammar if an LL(k) parser can be constructed from 
 
 ### First-set (*Fi*) and Follow-set (*Fo*)
 
-#### *Fi*
+#### First-set
 
 for CFG G=(V<sub>T</sub>, V<sub>N</sub>, P, S), the first-set of any &alpha; &isin; (V<sub>T</sub> &cup; V<sub>N</sub>)<sup>\*</sup> is defined as follows:
-- **Fi**(&alpha;) = { a | &alpha; =>\* a &beta;, a &isin; V<sub>T</sub>, &beta; &isin; (V<sub>T</sub> &cup; V<sub>N</sub>)<sup>\*</sup>, or &alpha; =>\* a where a=	&epsilon; }
+- **Fi**(&alpha;) = \{ a | &alpha; =>\* a &beta;, a &isin; V<sub>T</sub>, &beta; &isin; (V<sub>T</sub> &cup; V<sub>N</sub>)<sup>\*</sup>, or &alpha; =>\* a where a=	&epsilon; \}
 
 explanation: **Fi**(&alpha;) contains the first token of any possible derivation of &alpha;, or &epsilon; for &epsilon; production rule
 
@@ -57,21 +57,52 @@ explanation: **Fi**(&alpha;) contains the first token of any possible derivation
 ```python
 def get_Fi(V_T, V_N, P, S):
 # setup
-    for x in (V_T.join(V_N).join({epsilon}).join({any suffix of any production rule})).closure():
+    for x in (V_T + V_N + {epsilon} + {any suffix of any production rule}).closure():
         if x in V_T or x == epsilon:
-            Fi(x) = {x}
+            Fi[x] = {x}
         else:
-            Fi(x) = {}
+            Fi[x] = {}
 
     while Fi_changed(): # do until Fi does not change anymore
         for p in P:
             (A, beta) = p  # p = A->beta
             if beta == epsilon:  
-                Fi(A) = Fi(A).join(epsilon)
+                Fi[A] = Fi[A]+{epsilon}
             for Ys in u.suffix():  # generates [Y1, Y2, ..., Yk] where Yj in V_n.join(V_T)
                 
         
 ```
 
 
-- 
+#### Follow-set
+
+for CFG G=(V<sub>T</sub>, V<sub>N</sub>, P, S), the first-set of any A &isin; V<sub>N</sub> is defined as follows:
+
+- **Fo**(A) = \{a | S# =><sup>\*</sup> &alpha;A&beta;# and a &isin; Fi(&beta;#), where &alpha;, &beta; &isin; (V<sub>T</sub> &cup; V<sub>N</sub>)<sup>\*</sup>}, where # is the end-of-input token
+
+##### Calculation of *Fo*
+```python
+def get_Fo(V_T, V_N, P, S):
+    for x in V_N:
+        Fo[x] = {} 
+    Fo[S] = {EOI}
+    while Fo_changed():
+        for p in P:
+            (A, w) = p  # A -> w
+            for B in V_N:
+                if B in w:  # A -> xBy
+                    x, B, y = w
+                    Fo[B] += Fi[y] - {epsilon}
+                    if epsilon in Fi(y):
+                        Fo[B] += Fo[A]
+```
+
+### Predictive set
+
+PS(A -> &alpha;) = 
+- Fi(&alpha;) if &epsilon; &notin; Fi(&alpha;)
+- Fi(&alpha;) - \{&epsilon;\}) &cup; Fo(A)
+
+### LL(1) grammar
+
+G is LL(1) iff PS(A->&alpha;) &cap; PS(A->&beta;) = &empty; for any A->&alpha;|&beta;
