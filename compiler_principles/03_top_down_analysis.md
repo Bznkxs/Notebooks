@@ -45,4 +45,33 @@ A grammer is called an LL(k) grammar if an LL(k) parser can be constructed from 
 
 ### First-set (*Fi*) and Follow-set (*Fo*)
 
+#### *Fi*
+
+for CFG G=(V<sub>T</sub>, V<sub>N</sub>, P, S), the first-set of any &alpha; &isin; (V<sub>T</sub> &cup; V<sub>N</sub>)<sup>\*</sup> is defined as follows:
 - **Fi**(&alpha;) = { a | &alpha; =>\* a &beta;, a &isin; V<sub>T</sub>, &beta; &isin; (V<sub>T</sub> &cup; V<sub>N</sub>)<sup>\*</sup>, or &alpha; =>\* a where a=	&epsilon; }
+
+explanation: **Fi**(&alpha;) contains the first token of any possible derivation of &alpha;, or &epsilon; for &epsilon; production rule
+
+##### Calculation of *Fi*
+
+```python
+def get_Fi(V_T, V_N, P, S):
+# setup
+    for x in (V_T.join(V_N).join({epsilon}).join({any suffix of any production rule})).closure():
+        if x in V_T or x == epsilon:
+            Fi(x) = {x}
+        else:
+            Fi(x) = {}
+
+    while Fi_changed(): # do until Fi does not change anymore
+        for p in P:
+            (A, beta) = p  # p = A->beta
+            if beta == epsilon:  
+                Fi(A) = Fi(A).join(epsilon)
+            for Ys in u.suffix():  # generates [Y1, Y2, ..., Yk] where Yj in V_n.join(V_T)
+                
+        
+```
+
+
+- 
