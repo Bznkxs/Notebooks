@@ -105,4 +105,16 @@ PS(A -> &alpha;) =
 
 ### LL(1) grammar
 
-G is LL(1) iff PS(A->&alpha;) &cap; PS(A->&beta;) = &empty; for any A->&alpha;|&beta;
+G is LL(1) *iff* PS(A -> &alpha;) &cap; PS(A -> &beta;) = &empty; for any A -> &alpha; | &beta;.
+
+### Recursive descent LL(1) parser
+
+Each nonterminal symbol corresponds to a subroutine which determines the production rule by reading the next input token, *a*.
+
+When scanning through the production rules, scan their right-hand side:
+
+- for terminal symbol *t*, judge if *a* == *t*:
+  - if *a* == *t*: get the next token
+  - else: error
+- for nonterminal symbol *A*, call the corresponding subroutine.
+
